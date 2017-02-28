@@ -26,11 +26,14 @@ public class TCPClient {
         // will be received from a server
         String modifiedSentence;
 
+        // A string containing the address of the server
         String address = argv[0];
 
         // Integer that will contain the desired port number to be used for the connection socket
         // retrieved from the first argument in the application call
         int nPort = Integer.valueOf(argv[1]);
+
+        // Integer containing an integer value for the port for the non-persistent connection
         int rPort = 5768;
 
         // BufferedReader object that will be used for retrieving user
@@ -71,17 +74,27 @@ public class TCPClient {
             // The string okResponse is printed out and states "OK"
             System.out.println(okResponse);
 
+            // A ServerSocket object that listens for incoming connections on the port rPort
             ServerSocket clientwelcomeSocket = new ServerSocket(rPort);
+
+            // A string containing the ip address of the client
             String clientAddress = clientSocket.getLocalAddress().getHostAddress();
 
-            // Send client address
+            // Writes a string containing the client address to the server
             outToServer.writeBytes(clientAddress + '\n');
+
+            // Writes a string containing a port rPort
             outToServer.writeBytes(rPort + "\n");
 
-
+            // A Socket object that contains a connection socket from the server
             Socket connectionSocket =  clientwelcomeSocket.accept();
-            System.out.println("Connection established");
+
+            // A DataOutputStream object that creates an output stream to a server using the
+            // connectionSocket Socket object
             DataOutputStream transferToServer = new DataOutputStream(connectionSocket.getOutputStream());
+
+            // A BufferedReader object that creates an input stream from a server using the
+            // connectionSocket Socket object
             BufferedReader transferFromServer = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
             // Stores a response from the user's keyboard which represents the sentence

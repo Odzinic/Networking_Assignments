@@ -22,6 +22,7 @@ public class TCPServer {
         // retrieved from the first argument in the application call
         int nPort = Integer.valueOf(argv[0]);
 
+        // Integer containing an integer value for the port for the non-persistent connection
         int rPort;
 
         // A ServerSocket object that is used to establish a connection with the client using
@@ -48,14 +49,13 @@ public class TCPServer {
 
                 // String received from the client that will contain which command to apply to the received
                 // message
-
                 clientCommand = inFromClient.readLine();
 
+                // Condition that determines whether to command from the client is null which signifies
+                // a closed connection to the client
                 if (clientCommand == null){
                     break;
                 }
-
-
 
                 // Conditional that checks if the client command string equals the string "TOUPPERCASE"
                 // and if true, enters the condition nest
@@ -65,12 +65,21 @@ public class TCPServer {
                     // was received and is accepted
                     outToClient.writeBytes("OK\n");
 
+                    // A string that contains the clientAddress received from the client
                     String clientAddress = inFromClient.readLine();
+
+                    // An int that contains the client's ServerSocket port received from the client
                     rPort = Integer.valueOf(inFromClient.readLine());
 
+                    // A socket object that contains a socket that connects to the client's ServerSocket
                     Socket serverSocket = new Socket(clientAddress, rPort);
 
+                    // A DataOutputStream object that creates an output stream to a client using the
+                    // connectionSocket Socket object
                     DataOutputStream transferToClient = new DataOutputStream(serverSocket.getOutputStream());
+
+                    // A BufferedReader object that creates an input stream from a client using the
+                    // connectionSocket Socket object
                     BufferedReader transferFromClient = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
                     // The server received a string from the client containing the string that
@@ -94,12 +103,21 @@ public class TCPServer {
                     // was received and is accepted
                     outToClient.writeBytes("OK\n");
 
+                    // A string that contains the clientAddress received from the client
                     String clientAddress = inFromClient.readLine();
+
+                    // An int that contains the client's ServerSocket port received from the client
                     rPort = Integer.valueOf(inFromClient.readLine());
 
+                    // A socket object that contains a socket that connects to the client's ServerSocket
                     Socket serverSocket = new Socket(clientAddress, rPort);
 
+                    // A DataOutputStream object that creates an output stream to a client using the
+                    // connectionSocket Socket object
                     DataOutputStream transferToClient = new DataOutputStream(serverSocket.getOutputStream());
+
+                    // A BufferedReader object that creates an input stream from a client using the
+                    // connectionSocket Socket object
                     BufferedReader transferFromClient = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
                     // The server received a string from the client containing the string that
